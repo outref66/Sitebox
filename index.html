@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>خدمات إنشاء المواقع | المبرمج</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #0078ff;
+      --secondary: #00c9a7;
+      --bg-light: #ffffff;
+      --bg-dark: #0e1117;
+      --text-light: #222;
+      --text-dark: #f2f2f2;
+      --transition: 0.4s ease;
+      --card-radius: 15px;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Cairo", sans-serif;
+      background: var(--bg-light);
+      color: var(--text-light);
+      transition: background var(--transition), color var(--transition);
+    }
+
+    body[data-theme="dark"] {
+      background: var(--bg-dark);
+      color: var(--text-dark);
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(10px);
+      z-index: 100;
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 1.6rem;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: inherit;
+      font-weight: 600;
+      position: relative;
+    }
+
+    nav ul li a::after {
+      content: "";
+      position: absolute;
+      bottom: -3px;
+      right: 0;
+      width: 0%;
+      height: 2px;
+      background: var(--primary);
+      transition: width var(--transition);
+    }
+
+    nav ul li a:hover::after { width: 100%; left:0; }
+
+    .theme-icon {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background var(--transition), transform var(--transition);
+      position: relative;
+    }
+
+    .theme-icon:hover { transform: rotate(15deg); background: rgba(0,0,0,0.05); }
+    .theme-icon svg { width: 24px; height: 24px; transition: transform var(--transition), opacity var(--transition); }
+    .sun { color: #fbc531; opacity: 1; }
+    .moon { color: #00a8ff; position: absolute; opacity: 0; }
+    body[data-theme="dark"] .sun { transform: rotate(180deg); opacity: 0; }
+    body[data-theme="dark"] .moon { opacity: 1; transform: rotate(0deg); }
+
+    /* الباقات */
+    section.pricing {
+      padding: 4rem 2rem;
+      text-align: center;
+    }
+
+    .pricing h2 {
+      font-size: 2.2rem;
+      margin-bottom: 2.5rem;
+      color: var(--primary);
+    }
+
+    .pricing-cards {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.5rem;
+    }
+
+    .card {
+      flex: 0 1 300px; /* العرض الأساسي 300px */
+      max-width: 320px; /* أقصى عرض لكل بطاقة */
+      border-radius: var(--card-radius);
+      padding: 2rem;
+      transition: transform var(--transition), box-shadow var(--transition);
+      position: relative;
+      background: #fff;
+      color: #222;
+      border: 1px solid rgba(0,0,0,0.08);
+      text-align: center;
+    }
+
+    body[data-theme="dark"] .card {
+      background: #1a1f27;
+      color: #eee;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .card:hover { transform: translateY(-8px); box-shadow: 0 12px 30px rgba(0,0,0,0.2); }
+    .card.featured { border: 2px solid var(--primary); transform: scale(1.03); }
+
+    .card h3 { font-size: 1.6rem; margin-bottom: 0.5rem; }
+    .card .price { font-size: 1.4rem; color: var(--secondary); font-weight: 700; margin-bottom: 1rem; }
+    .card ul { list-style: none; padding: 0; text-align: right; margin-bottom: 1rem; }
+    .card ul li {
+      padding: 0.5rem 0;
+      font-weight: 500;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+    body[data-theme="dark"] .card ul li { border-bottom: 1px solid rgba(255,255,255,0.1); }
+
+    .btn {
+      display: inline-block;
+      background: var(--primary);
+      color: #fff;
+      padding: 0.7rem 1.4rem;
+      border-radius: 8px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background var(--transition);
+    }
+    .btn:hover { background: var(--secondary); }
+
+    /* الأسئلة الشائعة */
+    section.faq {
+      padding: 4rem 2rem;
+      background: rgba(0,0,0,0.03);
+    }
+    body[data-theme="dark"] section.faq { background: #14181f; }
+
+    .faq h2 { text-align: center; color: var(--primary); margin-bottom: 2rem; }
+
+    details {
+      background: #fff;
+      padding: 1rem 1.5rem;
+      margin-bottom: 1rem;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background var(--transition);
+    }
+
+    body[data-theme="dark"] details { background: #1a1f27; color: #eee; }
+
+    details[open] summary { color: var(--primary); }
+    summary { font-weight: 600; margin-bottom: 0.5rem; }
+
+    /* واتساب */
+    .whatsapp {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 60px;
+      height: 60px;
+      background-color: #25D366;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      z-index: 1000;
+      transition: transform var(--transition);
+    }
+    .whatsapp:hover { transform: scale(1.1); }
+    .whatsapp img { width: 35px; height: 35px; }
+
+    @media (max-width:768px){ nav ul{display:none;} }
+  </style>
+</head>
+<body data-theme="light">
+
+<header>
+  <div class="logo">موقعي</div>
+  <nav>
+    <ul>
+      <li><a href="#services">الخدمات</a></li>
+      <li><a href="#faq">اتصل بنا</a></li>
+    </ul>
+  </nav>
+  <div class="theme-icon" id="themeBtn">
+    <svg class="sun" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+      <path d="M12 18a6 6 0 1 0 0-12 6 6 0 0 0 0 12z"/>
+      <path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+    </svg>
+    <svg class="moon" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+      <path d="M21 12.79A9 9 0 0 1 11.21 3c0-.05 0-.1.01-.15a9.003 9.003 0 1 0 9.78 9.94z"/>
+    </svg>
+  </div>
+</header>
+
+<section id="services" class="pricing">
+  <h2>باقات تصميم المواقع التقنية</h2>
+  <div class="pricing-cards">
+    <div class="card">
+      <h3>أساسية</h3>
+      <p class="price">3,500 د.م</p>
+      <ul>
+        <li>تصميم متجاوب</li>
+        <li>أمان أساسي + SSL</li>
+        <li>سرعة تحميل ممتازة</li>
+        <li>لوحة إدارة بسيطة</li>
+      </ul>
+      <a href="https://wa.me/2126XXXXXXXX" class="btn">اختر هذه الباقة</a>
+    </div>
+
+    <div class="card featured">
+      <h3>متقدمة</h3>
+      <p class="price">6,500 د.م</p>
+      <ul>
+        <li>إضافة مدونة / أخبار</li>
+        <li>SEO أساسي</li>
+        <li>ربط شبكات اجتماعية</li>
+        <li>صيانة شهر + تحديثات</li>
+      </ul>
+      <a href="https://wa.me/2126XXXXXXXX" class="btn">اختر هذه الباقة</a>
+    </div>
+
+    <div class="card">
+      <h3>احترافية</h3>
+      <p class="price">10,000 د.م</p>
+      <ul>
+        <li>موقع شامل أو متجر صغير</li>
+        <li>لوحة إدارة متقدمة</li>
+        <li>SEO متقدم + تقارير</li>
+        <li>دعم وصيانة 3 أشهر</li>
+      </ul>
+      <a href="https://wa.me/2126XXXXXXXX" class="btn">اختر هذه الباقة</a>
+    </div>
+  </div>
+</section>
+
+<section id="faq" class="faq">
+  <h2>الأسئلة الشائعة</h2>
+
+  <details>
+    <summary>كم يستغرق تنفيذ الموقع؟</summary>
+    <p>من أسبوعين إلى خمسة أسابيع حسب الباقة وحجم المشروع.</p>
+  </details>
+
+  <details>
+    <summary>هل أحتاج إلى خبرة تقنية؟</summary>
+    <p>لا، سأهتم بكل الجوانب التقنية والتصميمية، وسأرشدك لإدارة الموقع بسهولة.</p>
+  </details>
+
+  <details>
+    <summary>هل يمكن ترقية الباقة لاحقاً؟</summary>
+    <p>نعم، يمكنك البدء بالأساسية ثم الانتقال لأي باقة أعلى لاحقاً.</p>
+  </details>
+
+  <details>
+    <summary>ما نوع الدعم بعد التسليم؟</summary>
+    <p>حسب الباقة، من دعم قصير إلى صيانة طويلة المدى.</p>
+  </details>
+</section>
+
+<a href="https://wa.me/2126XXXXXXXX" target="_blank" class="whatsapp">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="واتساب">
+</a>
+
+<script>
+  const themeBtn = document.getElementById('themeBtn');
+  const body = document.body;
+  if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    body.setAttribute('data-theme', 'dark');
+  }
+
+  themeBtn.addEventListener('click', () => {
+    body.setAttribute('data-theme', body.getAttribute('data-theme') === 'light' ? 'dark' : 'light');
+  });
+</script>
+
+</body>
+</html>
