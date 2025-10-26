@@ -1,313 +1,563 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="خدمات إنشاء المواقع باحترافية عالية وتصاميم عصرية لجميع المشاريع." />
+  <meta name="keywords" content="تصميم مواقع, إنشاء موقع, تطوير ويب, باقات تصميم, مواقع احترافية" />
+  <meta name="author" content="المبرمج" />
   <title>خدمات إنشاء المواقع | المبرمج</title>
+
+  <!-- خط cairo -->
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
 
   <style>
-    :root {
+    /* ===========================
+       VARIABLES & RESET
+       =========================== */
+    :root{
       --primary: #0078ff;
       --secondary: #00c9a7;
+      --accent: linear-gradient(90deg, var(--primary), var(--secondary));
       --bg-light: #ffffff;
-      --bg-dark: #0e1117;
-      --text-light: #222;
-      --text-dark: #f2f2f2;
-      --transition: 0.4s ease;
-      --card-radius: 15px;
+      --bg-muted: #f6f8fb;
+      --card-bg: #ffffff;
+      --card-border: rgba(0,0,0,0.07);
+      --text: #1f2937;
+      --muted: #6b7280;
+      --glass: rgba(255,255,255,0.6);
+      --radius: 16px;
+      --transition: 280ms cubic-bezier(.2,.9,.3,1);
+      --shadow-soft: 0 10px 30px rgba(16,24,40,0.08);
+      --shadow-deep: 0 18px 50px rgba(2,6,23,0.16);
     }
 
-    body {
-      margin: 0;
+    /* مدعوم للوضع الداكن */
+    body[data-theme="dark"]{
+      --bg-light: #0e1117;
+      --bg-muted: #0b0d10;
+      --card-bg: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+      --card-border: rgba(255,255,255,0.06);
+      --text: #e6eef8;
+      --muted: #9aa4b2;
+      --glass: rgba(255,255,255,0.04);
+      --shadow-soft: 0 8px 30px rgba(0,0,0,0.6);
+      --shadow-deep: 0 18px 50px rgba(0,0,0,0.6);
+    }
+
+    /* Reset بسيط */
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
       font-family: "Cairo", sans-serif;
-      background: var(--bg-light);
-      color: var(--text-light);
+      background: var(--bg-muted);
+      color: var(--text);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.65;
       transition: background var(--transition), color var(--transition);
+      -webkit-text-size-adjust:100%;
     }
 
-    body[data-theme="dark"] {
-      background: var(--bg-dark);
-      color: var(--text-dark);
+    img{max-width:100%;height:auto;display:block}
+
+    /* ===========================
+       CONTAINER UTILITIES
+       =========================== */
+    .container{
+      width: min(1200px, calc(100% - 32px));
+      margin-inline: auto;
     }
 
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 2rem;
-      border-bottom: 1px solid rgba(0,0,0,0.1);
-      position: sticky;
-      top: 0;
-      background: rgba(255,255,255,0.05);
-      backdrop-filter: blur(10px);
-      z-index: 100;
+    .row{
+      display:flex;
+      gap:1.25rem;
+      align-items:center;
     }
 
-    .logo {
-      font-weight: 700;
-      font-size: 1.6rem;
-      background: linear-gradient(90deg, var(--primary), var(--secondary));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+    /* ===========================
+       HEADER
+       =========================== */
+    header{
+      position:sticky;
+      top:0;
+      z-index:60;
+      backdrop-filter: blur(8px);
+      background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.45));
+      border-bottom: 1px solid var(--card-border);
+      transition: background var(--transition), border-color var(--transition);
     }
 
-    nav ul {
-      list-style: none;
-      display: flex;
-      gap: 1.5rem;
-      margin: 0;
-      padding: 0;
+    body[data-theme="dark"] header{
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-bottom-color: rgba(255,255,255,0.03);
     }
 
-    nav ul li a {
-      text-decoration: none;
-      color: inherit;
-      font-weight: 600;
-      position: relative;
+    .header-inner{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:1rem;
+      padding:1rem 0;
+      height:72px;
     }
 
-    nav ul li a::after {
+    .logo{
+      font-weight:700;
+      font-size:1.45rem;
+      letter-spacing:0.2px;
+      background: var(--accent);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      display:inline-block;
+    }
+
+    nav ul{
+      list-style:none;
+      margin:0;
+      padding:0;
+      display:flex;
+      gap:1.25rem;
+      align-items:center;
+    }
+
+    nav a{
+      color:inherit;
+      text-decoration:none;
+      font-weight:600;
+      position:relative;
+      padding:0.125rem 0.25rem;
+      transition: color var(--transition);
+    }
+
+    nav a::after{
       content: "";
-      position: absolute;
-      bottom: -3px;
-      right: 0;
-      width: 0%;
-      height: 2px;
-      background: var(--primary);
+      position:absolute;
+      bottom:-6px;
+      right:0;
+      width:0%;
+      height:3px;
+      background: linear-gradient(90deg, rgba(0,120,255,0.12), rgba(0,201,167,0.12));
+      border-radius:2px;
       transition: width var(--transition);
     }
 
-    nav ul li a:hover::after { width: 100%; left:0; }
+    nav a:hover::after{ width:100%; left:0; }
 
-    .theme-icon {
-      width: 45px;
-      height: 45px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: background var(--transition), transform var(--transition);
-      position: relative;
+    /* Theme toggle button (glass style) */
+    .theme-icon{
+      width:48px;
+      height:48px;
+      border-radius:12px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      transition: transform 350ms cubic-bezier(.2,.9,.3,1), box-shadow var(--transition);
+      box-shadow: var(--shadow-soft);
+      background: var(--glass);
+      border: 1px solid var(--card-border);
+      position:relative;
     }
 
-    .theme-icon:hover { transform: rotate(15deg); background: rgba(0,0,0,0.05); }
-    .theme-icon svg { width: 24px; height: 24px; transition: transform var(--transition), opacity var(--transition); }
-    .sun { color: #fbc531; opacity: 1; }
-    .moon { color: #00a8ff; position: absolute; opacity: 0; }
-    body[data-theme="dark"] .sun { transform: rotate(180deg); opacity: 0; }
-    body[data-theme="dark"] .moon { opacity: 1; transform: rotate(0deg); }
+    .theme-icon:active{ transform: scale(.98) }
+    .theme-icon svg{ width:22px; height:22px; transition: transform 300ms ease, opacity 300ms ease; }
 
-    /* الباقات */
-    section.pricing {
-      padding: 4rem 2rem;
-      text-align: center;
+    .theme-icon .sun{ color:#f8c034; opacity:1 }
+    .theme-icon .moon{ color:#0ab4ff; opacity:0; position:absolute; }
+
+    body[data-theme="dark"] .theme-icon .sun{ transform: rotate(40deg); opacity:0 }
+    body[data-theme="dark"] .theme-icon .moon{ opacity:1; transform: rotate(0deg) }
+
+    /* ===========================
+       HERO-ish (we keep layout minimal)
+       =========================== */
+    /* not adding new content — spacing only */
+    .spacer{ height:18px }
+
+    /* ===========================
+       PRICING SECTION
+       =========================== */
+    section.pricing{
+      padding: 48px 0 64px;
+      position:relative;
+      overflow:visible;
     }
 
-    .pricing h2 {
-      font-size: 2.2rem;
-      margin-bottom: 2.5rem;
-      color: var(--primary);
+    .pricing h2{
+      margin:0 0 28px;
+      font-size:28px;
+      color:var(--primary);
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      text-align:center;
+      font-weight:700;
     }
 
-    .pricing-cards {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1.5rem;
+    .pricing-cards{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:24px;
+      align-items:start;
+      justify-items:center;
     }
 
-    .card {
-      flex: 0 1 300px; /* العرض الأساسي 300px */
-      max-width: 320px; /* أقصى عرض لكل بطاقة */
-      border-radius: var(--card-radius);
-      padding: 2rem;
-      transition: transform var(--transition), box-shadow var(--transition);
-      position: relative;
-      background: #fff;
-      color: #222;
-      border: 1px solid rgba(0,0,0,0.08);
-      text-align: center;
+    /* Card style — realistic glass + depth */
+    .card{
+      width:100%;
+      max-width:340px;
+      border-radius: var(--radius);
+      padding: 28px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      box-shadow: var(--shadow-deep);
+      transition: transform 380ms cubic-bezier(.2,.9,.3,1), box-shadow var(--transition), border-color var(--transition);
+      text-align:right;
+      color:inherit;
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+      will-change:transform;
     }
 
-    body[data-theme="dark"] .card {
-      background: #1a1f27;
-      color: #eee;
-      border: 1px solid rgba(255,255,255,0.1);
+    .card:hover{
+      transform: translateY(-12px) scale(1.007);
+      box-shadow: 0 30px 70px rgba(2,6,23,0.12);
+      border-color: rgba(0,120,255,0.18);
     }
 
-    .card:hover { transform: translateY(-8px); box-shadow: 0 12px 30px rgba(0,0,0,0.2); }
-    .card.featured { border: 2px solid var(--primary); transform: scale(1.03); }
-
-    .card h3 { font-size: 1.6rem; margin-bottom: 0.5rem; }
-    .card .price { font-size: 1.4rem; color: var(--secondary); font-weight: 700; margin-bottom: 1rem; }
-    .card ul { list-style: none; padding: 0; text-align: right; margin-bottom: 1rem; }
-    .card ul li {
-      padding: 0.5rem 0;
-      font-weight: 500;
-      border-bottom: 1px solid rgba(0,0,0,0.05);
+    .card.featured{
+      outline: 3px solid rgba(0,120,255,0.08);
+      transform: translateY(-6px);
     }
-    body[data-theme="dark"] .card ul li { border-bottom: 1px solid rgba(255,255,255,0.1); }
 
-    .btn {
-      display: inline-block;
-      background: var(--primary);
-      color: #fff;
-      padding: 0.7rem 1.4rem;
-      border-radius: 8px;
-      font-weight: 600;
-      text-decoration: none;
-      transition: background var(--transition);
+    .card h3{
+      margin:0;
+      font-size:20px;
+      font-weight:700;
     }
-    .btn:hover { background: var(--secondary); }
 
-    /* الأسئلة الشائعة */
-    section.faq {
-      padding: 4rem 2rem;
-      background: rgba(0,0,0,0.03);
+    .price{
+      font-size:18px;
+      font-weight:800;
+      color:var(--secondary);
+      letter-spacing:0.2px;
     }
-    body[data-theme="dark"] section.faq { background: #14181f; }
 
-    .faq h2 { text-align: center; color: var(--primary); margin-bottom: 2rem; }
-
-    details {
-      background: #fff;
-      padding: 1rem 1.5rem;
-      margin-bottom: 1rem;
+    .card ul{
+      margin:0;
+      padding:0;
+      list-style:none;
+      display:block;
+      text-align:right;
       border-radius: 10px;
-      cursor: pointer;
-      transition: background var(--transition);
+      overflow:hidden;
+      background: linear-gradient(180deg, rgba(0,0,0,0.01), rgba(0,0,0,0.00));
     }
 
-    body[data-theme="dark"] details { background: #1a1f27; color: #eee; }
-
-    details[open] summary { color: var(--primary); }
-    summary { font-weight: 600; margin-bottom: 0.5rem; }
-
-    /* واتساب */
-    .whatsapp {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      width: 60px;
-      height: 60px;
-      background-color: #25D366;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-      z-index: 1000;
-      transition: transform var(--transition);
+    .card ul li{
+      padding:10px 0;
+      font-weight:600;
+      border-bottom: 1px dashed rgba(0,0,0,0.04);
+      color:var(--muted);
+      padding-inline:6px;
     }
-    .whatsapp:hover { transform: scale(1.1); }
-    .whatsapp img { width: 35px; height: 35px; }
 
-    @media (max-width:768px){ nav ul{display:none;} }
+    .card ul li:last-child{ border-bottom: none; }
+
+    .card .btn{
+      margin-top:auto;
+      align-self:center;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      padding:12px 18px;
+      border-radius:12px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      color:#fff;
+      font-weight:700;
+      text-decoration:none;
+      box-shadow: 0 10px 30px rgba(3,102,255,0.12);
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+
+    .card .btn:active{ transform: translateY(1px) scale(.997) }
+    .card .btn:hover{ box-shadow: 0 20px 50px rgba(3,102,255,0.16) }
+
+    /* subtle separator line */
+    .sep{ height:12px }
+
+    /* ===========================
+       FAQ SECTION
+       =========================== */
+    section.faq{
+      padding:48px 0 64px;
+    }
+
+    .faq h2{
+      margin:0 0 20px;
+      font-size:22px;
+      color:var(--primary);
+      text-align:center;
+      font-weight:700;
+    }
+
+    details{
+      background: var(--card-bg);
+      border-radius:12px;
+      padding:14px 18px;
+      margin-bottom:12px;
+      border:1px solid var(--card-border);
+      box-shadow: var(--shadow-soft);
+      transition: box-shadow var(--transition), transform var(--transition);
+    }
+
+    details[open]{ transform: translateY(-4px); box-shadow: 0 18px 40px rgba(2,6,23,0.06); }
+    summary{
+      font-weight:700;
+      cursor:pointer;
+      outline:none;
+      list-style:none;
+      font-size:16px;
+    }
+
+    details p{ margin:8px 0 0; color:var(--muted); font-weight:600; }
+
+    /* ===========================
+       WhatsApp floating btn (realistic)
+       =========================== */
+    .whatsapp{
+      position:fixed;
+      bottom:22px;
+      right:22px;
+      width:64px;
+      height:64px;
+      border-radius:18px;
+      display:inline-grid;
+      place-items:center;
+      z-index:120;
+      background: linear-gradient(180deg,#2bd66a,#18a34a);
+      box-shadow: 0 12px 30px rgba(24,160,83,0.28), 0 6px 18px rgba(0,0,0,0.12);
+      border: 1px solid rgba(255,255,255,0.08);
+      transition: transform 260ms ease, box-shadow 260ms ease;
+      text-decoration:none;
+    }
+
+    .whatsapp:active{ transform: translateY(1px) scale(.995) }
+    .whatsapp:hover{ transform: translateY(-6px) scale(1.03); box-shadow: 0 26px 64px rgba(24,160,83,0.28) }
+    .whatsapp img{ width:36px; height:36px; filter: drop-shadow(0 3px 6px rgba(0,0,0,0.18)); }
+
+    /* ===========================
+       RESPONSIVE (mobile-first tweaks)
+       =========================== */
+    @media (max-width: 980px){
+      .pricing-cards{ grid-template-columns: repeat(2, 1fr) }
+      .header-inner{ padding-inline: 12px }
+    }
+
+    @media (max-width: 720px){
+      header{ border-bottom: 1px solid transparent; }
+      .pricing h2{ font-size:20px; }
+      .pricing-cards{ grid-template-columns: 1fr; gap:18px; }
+      .card{ padding:20px; max-width:520px; }
+      .logo{ font-size:1.25rem }
+      .theme-icon{ width:44px; height:44px; border-radius:12px }
+      nav ul{ display:none } /* keep minimal mobile header per original */
+    }
+
+    /* small accessibility focus states */
+    a:focus, button:focus, summary:focus{
+      outline: 3px solid rgba(0,120,255,0.12);
+      outline-offset: 3px;
+      border-radius:8px;
+    }
   </style>
 </head>
 <body data-theme="light">
+  <!-- ===== HEADER ===== -->
+  <header>
+    <div class="container header-inner" role="banner">
+      <div class="row" style="gap:1rem;align-items:center">
+        <div class="logo" aria-label="شعار الموقع">موقعي</div>
+      </div>
 
-<header>
-  <div class="logo">موقعي</div>
-  <nav>
-    <ul>
-      <li><a href="#services">الخدمات</a></li>
-      <li><a href="#faq">اتصل بنا</a></li>
-    </ul>
-  </nav>
-  <div class="theme-icon" id="themeBtn">
-    <svg class="sun" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-      <path d="M12 18a6 6 0 1 0 0-12 6 6 0 0 0 0 12z"/>
-      <path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
-    </svg>
-    <svg class="moon" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-      <path d="M21 12.79A9 9 0 0 1 11.21 3c0-.05 0-.1.01-.15a9.003 9.003 0 1 0 9.78 9.94z"/>
-    </svg>
-  </div>
-</header>
+      <nav aria-label="الرئيسية">
+        <ul>
+          <li><a href="#services">الخدمات</a></li>
+          <li><a href="#faq">اتصل بنا</a></li>
+        </ul>
+      </nav>
 
-<section id="services" class="pricing">
-  <h2>باقات تصميم المواقع التقنية</h2>
-  <div class="pricing-cards">
-    <div class="card">
-      <h3>أساسية</h3>
-      <p class="price">3,500 د.م</p>
-      <ul>
-        <li>تصميم متجاوب</li>
-        <li>أمان أساسي + SSL</li>
-        <li>سرعة تحميل ممتازة</li>
-        <li>لوحة إدارة بسيطة</li>
-      </ul>
-      <a href="https://wa.me/2126XXXXXXXX" class="btn">اختر هذه الباقة</a>
+      <div style="display:flex; gap:12px; align-items:center;">
+        <button class="theme-icon" id="themeBtn" aria-pressed="false" aria-label="تبديل الوضع الداكن">
+          <!-- الشمس والقمر — تأثير بصري -->
+          <svg class="sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 18a6 6 0 1 0 0-12 6 6 0 0 0 0 12z"/>
+            <path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+          </svg>
+
+          <svg class="moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 0 1 11.21 3c0-.05 0-.1.01-.15a9.003 9.003 0 1 0 9.78 9.94z"/>
+          </svg>
+        </button>
+      </div>
     </div>
+  </header>
 
-    <div class="card featured">
-      <h3>متقدمة</h3>
-      <p class="price">6,500 د.م</p>
-      <ul>
-        <li>إضافة مدونة / أخبار</li>
-        <li>SEO أساسي</li>
-        <li>ربط شبكات اجتماعية</li>
-        <li>صيانة شهر + تحديثات</li>
-      </ul>
-      <a href="https://wa.me/2126XXXXXXXX" class="btn">اختر هذه الباقة</a>
-    </div>
+  <main class="container">
+    <div class="spacer" aria-hidden="true"></div>
 
-    <div class="card">
-      <h3>احترافية</h3>
-      <p class="price">10,000 د.م</p>
-      <ul>
-        <li>موقع شامل أو متجر صغير</li>
-        <li>لوحة إدارة متقدمة</li>
-        <li>SEO متقدم + تقارير</li>
-        <li>دعم وصيانة 3 أشهر</li>
-      </ul>
-      <a href="https://wa.me/2126XXXXXXXX" class="btn">اختر هذه الباقة</a>
-    </div>
-  </div>
-</section>
+    <!-- ===== PRICING / BUNDLES ===== -->
+    <section id="services" class="pricing" aria-labelledby="pricingTitle">
+      <h2 id="pricingTitle">باقات تصميم المواقع التقنية</h2>
 
-<section id="faq" class="faq">
-  <h2>الأسئلة الشائعة</h2>
+      <div class="pricing-cards" role="list">
+        <!-- Card 1 -->
+        <article class="card" role="listitem" aria-label="باقة أساسية">
+          <h3>أساسية</h3>
+          <div class="price">3,500 د.م</div>
 
-  <details>
-    <summary>كم يستغرق تنفيذ الموقع؟</summary>
-    <p>من أسبوعين إلى خمسة أسابيع حسب الباقة وحجم المشروع.</p>
-  </details>
+          <ul aria-hidden="false">
+            <li>تصميم متجاوب</li>
+            <li>أمان أساسي + SSL</li>
+            <li>سرعة تحميل ممتازة</li>
+            <li>لوحة إدارة بسيطة</li>
+          </ul>
 
-  <details>
-    <summary>هل أحتاج إلى خبرة تقنية؟</summary>
-    <p>لا، سأهتم بكل الجوانب التقنية والتصميمية، وسأرشدك لإدارة الموقع بسهولة.</p>
-  </details>
+          <a class="btn" href="https://wa.me/2126XXXXXXXX" target="_blank" rel="noopener noreferrer" aria-label="اختر باقة أساسية واتساب">
+            اختر هذه الباقة
+          </a>
+        </article>
 
-  <details>
-    <summary>هل يمكن ترقية الباقة لاحقاً؟</summary>
-    <p>نعم، يمكنك البدء بالأساسية ثم الانتقال لأي باقة أعلى لاحقاً.</p>
-  </details>
+        <!-- Card 2 (featured) -->
+        <article class="card featured" role="listitem" aria-label="باقة متقدمة">
+          <h3>متقدمة</h3>
+          <div class="price">6,500 د.م</div>
 
-  <details>
-    <summary>ما نوع الدعم بعد التسليم؟</summary>
-    <p>حسب الباقة، من دعم قصير إلى صيانة طويلة المدى.</p>
-  </details>
-</section>
+          <ul>
+            <li>إضافة مدونة / أخبار</li>
+            <li>SEO أساسي</li>
+            <li>ربط شبكات اجتماعية</li>
+            <li>صيانة شهر + تحديثات</li>
+          </ul>
 
-<a href="https://wa.me/2126XXXXXXXX" target="_blank" class="whatsapp">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="واتساب">
-</a>
+          <a class="btn" href="https://wa.me/2126XXXXXXXX" target="_blank" rel="noopener noreferrer" aria-label="اختر باقة متقدمة واتساب">
+            اختر هذه الباقة
+          </a>
+        </article>
 
-<script>
-  const themeBtn = document.getElementById('themeBtn');
-  const body = document.body;
-  if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    body.setAttribute('data-theme', 'dark');
-  }
+        <!-- Card 3 -->
+        <article class="card" role="listitem" aria-label="باقة احترافية">
+          <h3>احترافية</h3>
+          <div class="price">10,000 د.م</div>
 
-  themeBtn.addEventListener('click', () => {
-    body.setAttribute('data-theme', body.getAttribute('data-theme') === 'light' ? 'dark' : 'light');
-  });
-</script>
+          <ul>
+            <li>موقع شامل أو متجر صغير</li>
+            <li>لوحة إدارة متقدمة</li>
+            <li>SEO متقدم + تقارير</li>
+            <li>دعم وصيانة 3 أشهر</li>
+          </ul>
 
+          <a class="btn" href="https://wa.me/2126XXXXXXXX" target="_blank" rel="noopener noreferrer" aria-label="اختر باقة احترافية واتساب">
+            اختر هذه الباقة
+          </a>
+        </article>
+      </div>
+    </section>
+
+    <!-- ===== FAQ ===== -->
+    <section id="faq" class="faq" aria-labelledby="faqTitle">
+      <h2 id="faqTitle">الأسئلة الشائعة</h2>
+
+      <details>
+        <summary>كم يستغرق تنفيذ الموقع؟</summary>
+        <p>من أسبوعين إلى خمسة أسابيع حسب الباقة وحجم المشروع.</p>
+      </details>
+
+      <details>
+        <summary>هل أحتاج إلى خبرة تقنية؟</summary>
+        <p>لا، سأهتم بكل الجوانب التقنية والتصميمية، وسأرشدك لإدارة الموقع بسهولة.</p>
+      </details>
+
+      <details>
+        <summary>هل يمكن ترقية الباقة لاحقاً؟</summary>
+        <p>نعم، يمكنك البدء بالأساسية ثم الانتقال لأي باقة أعلى لاحقاً.</p>
+      </details>
+
+      <details>
+        <summary>ما نوع الدعم بعد التسليم؟</summary>
+        <p>حسب الباقة، من دعم قصير إلى صيانة طويلة المدى.</p>
+      </details>
+    </section>
+  </main>
+
+  <!-- ===== WhatsApp floating action button ===== -->
+  <a class="whatsapp" href="https://wa.me/2126XXXXXXXX" target="_blank" rel="noopener noreferrer" aria-label="تواصل عبر واتساب">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="واتساب">
+  </a>
+
+  <!-- ===========================
+       SCRIPTS
+       =========================== -->
+  <script>
+    (function(){
+      const themeBtn = document.getElementById('themeBtn');
+      const body = document.body;
+
+      // Initialize: respect system preference but don't override user-set attribute.
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (!body.hasAttribute('data-theme')) {
+        body.dataset.theme = prefersDark ? 'dark' : 'light';
+      }
+
+      // Toggle theme with ARIA updates
+      themeBtn.addEventListener('click', () => {
+        const current = body.dataset.theme === 'dark' ? 'dark' : 'light';
+        const next = current === 'dark' ? 'light' : 'dark';
+        body.dataset.theme = next;
+        themeBtn.setAttribute('aria-pressed', next === 'dark');
+        // small haptic-like micro animation
+        themeBtn.animate([
+          { transform: 'scale(1)' },
+          { transform: 'scale(0.97)' },
+          { transform: 'scale(1)' }
+        ], { duration: 260, easing: 'ease-out' });
+      });
+
+      // Improve keyboard accessibility for details/summary (native good, but we ensure)
+      document.querySelectorAll('summary').forEach(s => {
+        s.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            s.parentElement.open = !s.parentElement.open;
+          }
+        });
+      });
+
+      // Tiny progressive enhancement: animate cards into view
+      if ('IntersectionObserver' in window) {
+        const cards = document.querySelectorAll('.card');
+        const io = new IntersectionObserver((entries, obs) => {
+          entries.forEach(en => {
+            if (en.isIntersecting) {
+              en.target.style.transition = 'opacity 600ms cubic-bezier(.2,.9,.3,1), transform 700ms cubic-bezier(.2,.9,.3,1)';
+              en.target.style.opacity = 1;
+              en.target.style.transform = 'translateY(0) scale(1)';
+              obs.unobserve(en.target);
+            }
+          });
+        }, { threshold: 0.08 });
+
+        cards.forEach(c => {
+          c.style.opacity = 0;
+          c.style.transform = 'translateY(18px) scale(.997)';
+          io.observe(c);
+        });
+      }
+    })();
+  </script>
 </body>
 </html>
